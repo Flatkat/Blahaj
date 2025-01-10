@@ -1,22 +1,19 @@
 package hibi.blahaj.block;
 
-import hibi.blahaj.*;
 import net.minecraft.block.*;
 import net.minecraft.client.item.*;
-import net.minecraft.component.*;
-import net.minecraft.component.type.*;
-import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.text.*;
 import net.minecraft.util.*;
 import net.minecraft.world.*;
-import org.jetbrains.annotations.*;
 
 import java.util.*;
 
 public class CuddlyItem extends BlockItem {
+
+	public static final String OWNER_KEY = "Owner";
 
 	private final Text subtitle;
 
@@ -26,40 +23,34 @@ public class CuddlyItem extends BlockItem {
 	}
 
 	@Override
-	public void onCraftByPlayer(ItemStack stack, World world, PlayerEntity player) {
-		super.onCraftByPlayer(stack, world, player);
-
-		if (player != null) { // compensate for auto-crafter mods
-			stack.set(BlahajDataComponentTypes.OWNER, player.getName());
-		}
-	}
-
-	@Override
-	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-		super.appendTooltip(stack, context, tooltip, type);
-
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		if (this.subtitle != null) {
 			tooltip.add(this.subtitle);
 		}
-
-		@Nullable Text ownerName = stack.get(BlahajDataComponentTypes.OWNER);
-		if (ownerName != null) {
-			@Nullable Text customName = stack.get(DataComponentTypes.CUSTOM_NAME);
-			if (customName == null) {
-				tooltip.add(Text.translatable("tooltip.blahaj.owner.craft", ownerName).formatted(Formatting.GRAY));
+		NbtCompound nbt = stack.getNbt();
+		if (nbt != null) {
+			String owner = nbt.getString(OWNER_KEY);
+			if (owner.isEmpty()) {
+				return;
+			}
+			if (stack.hasCustomName()) {
+				tooltip.add(Text.translatable("tooltip.blahaj.owner.rename", this.getName(), Text.literal(owner)).formatted(Formatting.GRAY));
 			} else {
-				tooltip.add(Text.translatable("tooltip.blahaj.owner.rename", customName, ownerName).formatted(Formatting.GRAY));
+				tooltip.add(Text.translatable("tooltip.blahaj.owner.craft", Text.literal(owner)).formatted(Formatting.GRAY));
 			}
 		}
 	}
 
-	public static final UUID MINING_SPEED_MODIFIER_ID = UUID.fromString("6d249922-3231-4ad1-8d5c-624881906cd5");
-
-	public static AttributeModifiersComponent createAttributeModifiers() {
-		return AttributeModifiersComponent.builder()
-			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", -0.75, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), AttributeModifierSlot.MAINHAND)
-			.add(EntityAttributes.PLAYER_BLOCK_BREAK_SPEED, new EntityAttributeModifier(MINING_SPEED_MODIFIER_ID, "Tool modifier", -0.75, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), AttributeModifierSlot.MAINHAND)
-			.build();
+	@Override
+	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+		if (player != null) { // compensate for auto-crafter mods
+			stack.setSubNbt(OWNER_KEY, NbtString.of(player.getName().getString()));
+		}
+		super.onCraft(stack, world, player);
 	}
 
+	@Override
+	public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
+		return 0.25f;
+	}
 }
