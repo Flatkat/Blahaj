@@ -3,7 +3,6 @@ package hibi.blahaj.mixin.client;
 import hibi.blahaj.block.*;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel.ArmPose;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
