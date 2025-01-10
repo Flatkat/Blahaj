@@ -1,11 +1,13 @@
 package hibi.blahaj.block;
 
+import hibi.blahaj.Blahaj;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.*;
 import net.fabricmc.fabric.api.itemgroup.v1.*;
 import net.minecraft.block.*;
 import net.minecraft.client.render.*;
 import net.minecraft.item.*;
 import net.minecraft.registry.*;
+import net.minecraft.text.Text;
 import net.minecraft.util.*;
 
 import static hibi.blahaj.Blahaj.*;
@@ -31,13 +33,14 @@ public class BlahajBlocks {
 		GRAY_SHARK_ITEM = Registry.register(Registries.ITEM, GRAY_SHARK_ID, new CuddlyItem(GRAY_SHARK_BLOCK, new Item.Settings().maxCount(1), "block.blahaj.gray_shark.tooltip"));
 		BLAHAJ_ITEM = Registry.register(Registries.ITEM, BLAHAJ_ID, new CuddlyItem(BLAHAJ_BLOCK, new Item.Settings().maxCount(1), "block.blahaj.blue_shark.tooltip"));
 		BREAD_ITEM = Registry.register(Registries.ITEM, BREAD_ID, new CuddlyItem(BREAD_BLOCK, new Item.Settings().maxCount(1), null));
+	}
 
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
+	public static final ItemGroup BLAHAJ_GROUP = Registry.register(Registries.ITEM_GROUP,
+		new Identifier(Blahaj.MOD_ID, "ruby"), FabricItemGroup.builder().displayName(Text.translatable("itemgroup.blahaj")).icon(() -> new ItemStack(BLAHAJ_ITEM)).entries((displayContext, entries) -> {
 			entries.add(new ItemStack(GRAY_SHARK_ITEM));
 			entries.add(new ItemStack(BLAHAJ_ITEM));
 			entries.add(new ItemStack(BREAD_ITEM));
-		});
-	}
+		}).build());
 
 	public static void registerClient() {
 		BlockRenderLayerMap.INSTANCE.putBlock(GRAY_SHARK_BLOCK, RenderLayer.getCutout());
