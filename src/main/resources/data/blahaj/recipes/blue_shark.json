@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "pattern": [
     " # ",
     "###",
@@ -17,7 +18,6 @@
     }
   },
   "result": {
-    "id": "blahaj:blue_shark",
-    "count": 1
+    "item": "blahaj:blue_shark"
   }
 }

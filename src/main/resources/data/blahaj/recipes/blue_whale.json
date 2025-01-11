@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "pattern": [
     " # ",
     "###",
@@ -7,7 +8,7 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:blue_wool"
+      "item": "minecraft:light_blue_wool"
     },
     "G": {
       "item": "minecraft:light_gray_wool"
@@ -17,7 +18,6 @@
     }
   },
   "result": {
-    "id": "blahaj:blue_whale",
-    "count": 1
+    "item": "blahaj:blue_whale"
   }
 }
