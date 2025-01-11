@@ -43,6 +43,13 @@ public class Blahaj implements ModInitializer {
 						.with(ItemEntry.builder(Items.AIR)
 								.weight(54));
 				tableBuilder.pool(pb);
+			} else if (id.equals(LootTables.HERO_OF_THE_VILLAGE_FLETCHER_GIFT_GAMEPLAY)
+				|| id.equals(LootTables.HERO_OF_THE_VILLAGE_BUTCHER_GIFT_GAMEPLAY)
+				|| id.equals(LootTables.HERO_OF_THE_VILLAGE_LEATHERWORKER_GIFT_GAMEPLAY)) {
+				LootPool.Builder pb = LootPool.builder()
+					.with(ItemEntry.builder(BlahajBlocks.BROWN_BEAR_ITEM).weight(5))
+					.with(ItemEntry.builder(Items.AIR).weight(25));
+				tableBuilder.pool(pb);
 			}
 		});
 	}
