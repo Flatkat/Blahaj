@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "tag": "blahaj:sharks"
+  },
+  "result": "blahaj:gay_shark"
+}
